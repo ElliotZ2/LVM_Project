@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class CommandLineInterface {
 
-    public static void start(VolumeGroup vg) {
+    public static void start() {
         Scanner scanner = new Scanner(System.in);
         String input = "";
         while(input.toLowerCase().equals("exit") == false) {
@@ -10,11 +10,11 @@ public class CommandLineInterface {
             if(input.contains("install-drive")) {
                 String driveName = input.substring(input.indexOf(" "), input.indexOf(" ", input.indexOf(" ") + 1));
                 String size = input.substring(input.indexOf(" ", input.indexOf(" ") + 1));
-                int s = Integer.parseInt(size.substring(0, size.indexOf("G")));
-                vg.addHardDrive(driveName, s);
+                int s = Integer.parseInt(size.substring(1, size.indexOf("G")));
+                PhysicalHardDrive.installHardDrive(new PhysicalHardDrive(driveName, s));
             }
             else if(input.contains("list-drives")) {
-                vg.listHardDrives();
+                PhysicalHardDrive.listHardDrives();
             }
         }
     }

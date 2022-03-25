@@ -9,6 +9,10 @@ public class Storage {
         uuid = UUID.randomUUID().toString();
     }
 
+    public void test() {
+        System.out.println("yo");
+    }
+
     public String getName() {
         return name;
     }
