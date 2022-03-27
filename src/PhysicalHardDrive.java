@@ -4,11 +4,13 @@ public class PhysicalHardDrive extends Storage {
     private int size;
     private int occupiedSize;
     private static ArrayList<PhysicalHardDrive> allHardDrives = new ArrayList<PhysicalHardDrive>();
+    private boolean associatedWithPV;
 
     public PhysicalHardDrive(String name, int size) {
         super(name);
         this.size = size;
         occupiedSize = 0;
+        associatedWithPV = false;
     }
 
     public static ArrayList<PhysicalHardDrive> getAllHardDrives() {
@@ -29,6 +31,7 @@ public class PhysicalHardDrive extends Storage {
         }
         if(sameName == false) {
             allHardDrives.add(hd);
+            System.out.println("Drive " + hd.getName() + " installed");
         }
         else{
             System.out.println("A hard drive named " + hd.getName() + " already exists.");
@@ -39,5 +42,13 @@ public class PhysicalHardDrive extends Storage {
         for(PhysicalHardDrive hd : allHardDrives) {
             System.out.println(hd.getName() + " [" + hd.getSize() + "G]");
         }
+    }
+
+    public void associateWithPV() {
+        associatedWithPV = true;
+    }
+
+    public boolean isAssociatedWithPV() {
+        return associatedWithPV;
     }
 }
