@@ -13,6 +13,7 @@ public class LogicalVolume extends Storage{
     public static void installLogicalVolume(LogicalVolume lv, VolumeGroup vg) {
         allLogicalVolumes.add(lv);
         vg.useStorage(lv.getSize());
+        lv.associateWithVG(vg);
     }
 
     public int getSize() {
@@ -34,5 +35,9 @@ public class LogicalVolume extends Storage{
             }
         }
         return false;
+    }
+
+    public void associateWithVG(VolumeGroup vg) {
+        volumeGroup = vg;
     }
 }

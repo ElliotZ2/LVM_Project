@@ -1,0 +1,164 @@
+superclass Storage class {
+    //super class of the PhysicalVolume, VolumeGroup, and  LogicalVolume classes
+    //contains the name and uuid instance variables, both are strings
+    private string name
+    private string uuid
+
+    public Storage(String name) {
+    //the constructor takes in a name parameter and initializes the name instance variable to that parameter, the uuid is randomly generated using UUID.randomUUID()
+    }
+
+    //there are getter methods for both the Name and UUID
+    public String getName()
+    public String getUuid()
+}
+
+class PhysicalHardDrive {
+    //represents a physical hard drive
+    private String name
+    private int size
+    private static ArrayList<PhysicalHardDrive> allHardDrives //all hard drives that are installed into the logical volume managet are placed inside this static arraylist
+    private boolean associatedWithPV //keeps track of whether this hard drive is already associated with a physical volume or not
+
+    public PhysicalHardDrive(String name, int size) {
+    //sets name and size instance variables equal to name and size parameters
+    //associatedWithPV is set to false
+    }
+
+    //getter methods exist for all instance variables
+
+    public static void installHardDrive(PhysicalHardDrive hd) {
+        //places hd into the static arraylist allHardDrives after checking that it is valid
+        //a hd is valid if a hard drive with its name doesn't already exist inside allHardDrives
+        //if a hard drive cannot be added to the allHardDrives arraylist, then a error message is printed; otherwise a message saying that the drive was installed is printed
+    }
+
+    public static void listHardDrives() {
+        //lists all the hard drives in allHardDrives in this format:
+        //name [size G]
+    }
+
+    public void associateWithPV() {
+        //sets associatedWithPV to true to show that this hard drive has been associated
+    }
+}
+
+class PhysicalVolume extends Storage {
+    //represents a Physical Volume, is a subclass of the Storage class
+    private PhysicalHardDrive hardDrive //every physical volume has a single hard drive
+    oruvate VolumeGroup associatedVolumeGroup
+    private static ArrayList<PhysicalVolume> allPhysicalVolumes
+
+    public PhysicalVolume(String name, PhysicalHardDrive hd) {
+        //calls the super constructor to initialize the name and uuid, then initializes hardDrive to hd
+    }
+
+    //getter methods exist for all instance variables
+
+    public static void installPhysicalVolume(PhysicalVolume pv, PhysicalHardDrive hd) {
+        //adds the PhysicalVolume pv to the allPhysicalVolumes arraylist if possible
+        //reports an error if the hd is already associated, or a physical volume already has the same name as pv
+        //associates hd with pv
+    }
+
+    public void associateWithVG(VolumeGroup vg) {
+        associates the physical volume with vg unless the physical volume is already associated with another volume group
+    }
+
+    public int getSize() {
+        returns the size of the associated hard drive
+    }
+}
+
+class VolumeGroup extends Storage {
+    //represents a Volume Group, is a subclass of the Storage class
+    private static ArrayList<VolumeGroup> allVolumeGroups //stores every volume group
+    private ArrayList<PhysicalVolume> physicalVolumes //contains every physical volume that is a part of this volume group
+    private int occupiedStorage //amount of storage that is being used
+
+    public VolumeGroup(String name) {
+        calls the super constructor with the name parameter to initialize its name and uuid
+        sets occupied storage equal to zero
+        sets physicalVolumes equal to an empty arraylist
+    }
+
+    //this class contains methods for every instance variable
+
+    public static boolean containsVGWithName(String n) {
+        returns true if there is a volume group in allVolumeGroups that has the same name as n
+    }
+
+    public void extend(PhysicalVolume pv) {
+        adds pv to physicalVolumes
+    }
+
+    public static void installVolumeGroup(VolumeGroup vg, PhysicalVolume pv) {
+        adds vg to allVolumeGroups
+        extends vg to pv
+        associates pv with vg
+    }
+
+    public int getTotalSize() {
+        returns the total size of all pvs in physicalVolumes in Gs
+    }
+
+    public int getAvailableStorage() {
+        returns the amount of available storage in this vg in Gs
+    }
+
+    public void useStorage(int storage) {
+        if it's possible to use storage amount of storage, then occupied storage is increased by storage amount
+    }
+
+    public static VolumeGroup getVgWithName(String name) {
+        returns the volume group within allVolumeGroups that contains the same name as name, otherwise returns a null
+    }
+
+    public static void listVG() {
+        lists all the vgs inside allVolumeGroups
+    }
+}
+
+class LogicalVolume extends Storage{
+    //represents a Logical volume and is a subclass of storage
+    private int size
+    private VolumeGroup volumeGroup
+    public static ArrayList<LogicalVolume> allLogicalVolumes
+
+    public LogicalVolumes(String name, int size) {
+        calls the super constructor to initialize the name to name and uuid
+        sets size equal to size
+    }
+
+    public static void installLogicalVolume(LogicalVolume lv, VolumeGroup vg) {
+        adds lv to all logicalVolumes
+        decreases the total storage of vg by the size of lv
+    }
+
+    //getter methods exist for the size, volumeGroup, and allLogicalVolumes instance variables
+
+    public static boolean containsLVWithName(String n) {
+        returns true if there exists a LV with the same name as n
+    }
+}
+
+class CommandLineInterface {
+    public static void start() {
+        -greets the user and allows for the user to input commands until the user enters exit
+        -all commands must begin with cmd# in order for a command to be executed
+        -list of commands are:
+            install-drive
+            list-drives
+            pvcreate
+            pvlist
+            vgcreate
+            vgextend
+            vglist
+            lvcreate
+            lvlist
+    }
+}
+
+class main {
+    calls CommandLineInterface.start()
+}

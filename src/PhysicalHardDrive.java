@@ -1,15 +1,14 @@
 import java.util.ArrayList;
 
-public class PhysicalHardDrive extends Storage {
+public class PhysicalHardDrive {
+    private String name;
     private int size;
-    private int occupiedSize;
     private static ArrayList<PhysicalHardDrive> allHardDrives = new ArrayList<PhysicalHardDrive>();
     private boolean associatedWithPV;
 
     public PhysicalHardDrive(String name, int size) {
-        super(name);
+        this.name = name;
         this.size = size;
-        occupiedSize = 0;
         associatedWithPV = false;
     }
 
@@ -50,5 +49,9 @@ public class PhysicalHardDrive extends Storage {
 
     public boolean isAssociatedWithPV() {
         return associatedWithPV;
+    }
+
+    public String getName() {
+        return name;
     }
 }

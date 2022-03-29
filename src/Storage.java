@@ -16,18 +16,4 @@ public class Storage {
     public String getUuid() {
         return uuid;
     }
-    /*
-    public boolean fill(int gigabytes) {
-        if(gigabytes > getAvailableSpace()) {
-            return false;
-        }
-        else{
-            occupiedStorage += gigabytes;
-            return true;
-        }
-    }
-
-    public int getAvailableSpace() {
-        return size - occupiedStorage;
-    }*/
 }
