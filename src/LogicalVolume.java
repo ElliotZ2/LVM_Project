@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LogicalVolume extends Storage{
+public class LogicalVolume extends Storage implements Serializable {
     private int size;
     private VolumeGroup volumeGroup;
     public static ArrayList<LogicalVolume> allLogicalVolumes = new ArrayList<LogicalVolume>();
@@ -14,6 +15,10 @@ public class LogicalVolume extends Storage{
         allLogicalVolumes.add(lv);
         vg.useStorage(lv.getSize());
         lv.associateWithVG(vg);
+    }
+
+    public static void installLogicalVolume(LogicalVolume lv) {
+        allLogicalVolumes.add(lv);
     }
 
     public int getSize() {

@@ -1,9 +1,14 @@
+import java.io.*;
 import java.util.Scanner;
 
 public class CommandLineInterface {
 
-    public static void start() {
+    public void start() {
+        load();
         System.out.println("Welcome to the Logical Volume Manager System! Enter your commands:");
+        for(int i = 0; i < 10; i++) {
+            System.out.println();
+        }
         Scanner scanner = new Scanner(System.in);
         String input = "";
         while(input.toLowerCase().equals("exit") == false) {
@@ -116,20 +121,119 @@ public class CommandLineInterface {
                 else if(input.contains("lvlist")) {
                     for(VolumeGroup vg : VolumeGroup.getAllVolumeGroups()) {
                         for(LogicalVolume lv : LogicalVolume.getAllLogicalVolumes()) {
-                            if(lv.getVolumeGroup().equals(vg)) {
+                            if(lv.getVolumeGroup().getName().equals(vg.getName())) {
                                 System.out.println(lv.getName() + ": [" + lv.getSize() + "G] [" + lv.getUuid() + "]");
                             }
                         }
                     }
                 }
             }
+        save();
+        System.out.println("Saving data.");
     }
 
     public void save() {
-
+        int items = PhysicalHardDrive.getAllHardDrives().size() + PhysicalVolume.getAllPhysicalVolumes().size() + VolumeGroup.getAllVolumeGroups().size() + LogicalVolume.getAllLogicalVolumes().size();
+        try{
+            ObjectOutputStream output1 = new ObjectOutputStream(new FileOutputStream("hdsave.dat"));
+            output1.writeObject(PhysicalHardDrive.getAllHardDrives().size());
+            for(PhysicalHardDrive hd : PhysicalHardDrive.getAllHardDrives()) {
+                output1.writeObject(hd);
+            }
+            ObjectOutputStream output2 = new ObjectOutputStream(new FileOutputStream("pvsave.dat"));
+            output2.writeObject(PhysicalVolume.getAllPhysicalVolumes().size());
+            for(PhysicalVolume pv : PhysicalVolume.getAllPhysicalVolumes()) {
+                output2.writeObject(pv);
+            }
+            ObjectOutputStream output3 = new ObjectOutputStream(new FileOutputStream("vgsave.dat"));
+            output3.writeObject(VolumeGroup.getAllVolumeGroups().size());
+            for(VolumeGroup vg : VolumeGroup.getAllVolumeGroups()) {
+                output3.writeObject(vg);
+            }
+            ObjectOutputStream output4 = new ObjectOutputStream(new FileOutputStream("lvsave.dat"));
+            output4.writeObject(LogicalVolume.getAllLogicalVolumes().size());
+            for(LogicalVolume lv : LogicalVolume.getAllLogicalVolumes()) {
+                output4.writeObject(lv);
+            }
+            output1.close();
+            output2.close();
+            output3.close();
+            output4.close();
+        }
+        catch(IOException ioe) {
+            System.out.println("Error saving data.");
+        }
     }
 
+    /*
     public void load() {
+        try{
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream("save.dat"));
+            int items = (int) input.readObject();
+            for(int i = 0; i < items; i++) {
+                System.out.println(i);
+                Object o = input.readObject();
+                System.out.println(o instanceof PhysicalHardDrive);
+                if(o instanceof PhysicalHardDrive) {
+                    PhysicalHardDrive.installHardDrive((PhysicalHardDrive) o);
+                }
+                else if(o instanceof PhysicalVolume) {
+                    PhysicalVolume.installPhysicalVolume((PhysicalVolume) o);
+                }
+                else if(o instanceof VolumeGroup) {
+                    VolumeGroup.installVolumeGroup((VolumeGroup) o);
+                }
+                else if(o instanceof LogicalVolume) {
+                    LogicalVolume.installLogicalVolume((LogicalVolume) o);
+                }
+            }
+        }
+        catch(IOException ioe) {
+            System.out.println("Error loading data.");
+        }
+        catch(ClassNotFoundException cnfe) {
+            System.out.println("another problem");
+        }
+        for(int i = 0; i < 20; i++) {
+            System.out.println();
+        }
+    }*/
+    public void load() {
+        try{
+            ObjectInputStream input1 = new ObjectInputStream(new FileInputStream("hdsave.dat"));
+            int hdCount = (int) input1.readObject();
+            for(int i = 0; i < hdCount; i++) {
+                PhysicalHardDrive.installHardDrive((PhysicalHardDrive) input1.readObject());
+            }
 
+            ObjectInputStream input2 = new ObjectInputStream(new FileInputStream("pvsave.dat"));
+            int pvCount = (int) input2.readObject();
+            for(int i = 0; i < pvCount; i++) {
+                PhysicalVolume.installPhysicalVolume((PhysicalVolume) input2.readObject());
+            }
+
+            ObjectInputStream input3 = new ObjectInputStream(new FileInputStream("vgsave.dat"));
+            int vgCount = (int) input3.readObject();
+            for(int i = 0; i < vgCount; i++) {
+                VolumeGroup.installVolumeGroup((VolumeGroup) input3.readObject());
+            }
+
+            ObjectInputStream input4 = new ObjectInputStream(new FileInputStream("lvsave.dat"));
+            int lvCount = (int) input4.readObject();
+            for(int i = 0; i < lvCount; i++) {
+                LogicalVolume.installLogicalVolume((LogicalVolume) input4.readObject());
+            }
+        }
+        catch(IOException ioe) {
+            System.out.println("Error loading data.");
+        }
+        catch(ClassNotFoundException cnfe) {
+            System.out.println("another problem");
+        }
+        for(int i = 0; i < 20; i++) {
+            System.out.println();
+        }
     }
+
+
 }

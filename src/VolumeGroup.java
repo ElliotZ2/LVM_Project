@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class VolumeGroup extends Storage{
+public class VolumeGroup extends Storage implements Serializable {
     private static ArrayList<VolumeGroup> allVolumeGroups = new ArrayList<VolumeGroup>();
     private ArrayList<PhysicalVolume> physicalVolumes;
     private int occupiedStorage;
@@ -29,6 +30,10 @@ public class VolumeGroup extends Storage{
         vg.extend(pv);
         pv.associateWithVG(vg);
         System.out.println(vg.getName() + " created");
+    }
+
+    public static void installVolumeGroup(VolumeGroup vg) {
+        allVolumeGroups.add(vg);
     }
 
     public void extend(PhysicalVolume pv) {

@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PhysicalVolume extends Storage{
+public class PhysicalVolume extends Storage implements Serializable{
     private PhysicalHardDrive hardDrive;
     private VolumeGroup associatedVolumeGroup;
     private static ArrayList<PhysicalVolume> allPhysicalVolumes = new ArrayList<PhysicalVolume>();
@@ -31,6 +32,10 @@ public class PhysicalVolume extends Storage{
             hd.associateWithPV();
             System.out.println(pv.getName() + " created");
         }
+    }
+
+    public static void installPhysicalVolume(PhysicalVolume pv) {
+        allPhysicalVolumes.add(pv);
     }
 
     public void associateWithVG(VolumeGroup vg) {

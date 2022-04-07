@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        CommandLineInterface.start();
+        CommandLineInterface commandLineInterface = new CommandLineInterface();
+        commandLineInterface.start();
     }
 }

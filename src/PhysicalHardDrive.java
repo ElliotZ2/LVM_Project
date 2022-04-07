@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PhysicalHardDrive {
+public class PhysicalHardDrive implements Serializable {
     private String name;
     private int size;
     private static ArrayList<PhysicalHardDrive> allHardDrives = new ArrayList<PhysicalHardDrive>();
