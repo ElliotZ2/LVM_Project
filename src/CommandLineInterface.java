@@ -108,7 +108,7 @@ public class CommandLineInterface {
                         System.out.println("A logical volume with the name " + lvName + " already exists.");
                     }
                     else if(!VolumeGroup.containsVGWithName(vgName)) {
-                        System.out.println("A volume group with the name + " + vgName + " doesn't exist.");
+                        System.out.println("A volume group with the name " + vgName + " doesn't exist.");
                     }
                     else if(VolumeGroup.getVGWithName(vgName).getAvailableStorage() < size) {
                         System.out.println("Volume group " + vgName + " cannot allocate " + size + "G of space when it only has " + VolumeGroup.getVGWithName(vgName).getAvailableStorage() + "G available.");
