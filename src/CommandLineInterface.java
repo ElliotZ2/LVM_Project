@@ -8,8 +8,6 @@ public class CommandLineInterface {
         String input = "";
         while(input.toLowerCase().equals("exit") == false) {
             input = scanner.nextLine();
-            if(input.length() >= 5 && input.substring(0, 5).equals("cmd# ")) {
-                input = input.substring(5);
                 if(input.contains("install-drive")) {
                     String driveName = input.substring(input.indexOf(" ") + 1, input.indexOf(" ", input.indexOf(" ") + 1));
                     String size = input.substring(input.indexOf(" ", input.indexOf(" ") + 1));
@@ -88,6 +86,7 @@ public class CommandLineInterface {
                         System.out.println("Physical volume " + pv.getName() + " is already associated with volume group " + pv.getAssociatedVolumeGroup().getName() + ".");
                     }
                     else{
+                        System.out.println("Volume group " + vgName + " has been extended to include " + pvName + ".");
                         VolumeGroup.getVGWithName(vgName).extend(pv);
                     }
                 }
@@ -118,13 +117,12 @@ public class CommandLineInterface {
                     for(VolumeGroup vg : VolumeGroup.getAllVolumeGroups()) {
                         for(LogicalVolume lv : LogicalVolume.getAllLogicalVolumes()) {
                             if(lv.getVolumeGroup().equals(vg)) {
-                                System.out.println(lv.getName() + ": [" + lv.getSize() + "] [" + lv.getUuid() + "]");
+                                System.out.println(lv.getName() + ": [" + lv.getSize() + "G] [" + lv.getUuid() + "]");
                             }
                         }
                     }
                 }
             }
-        }
     }
 
     public void save() {
